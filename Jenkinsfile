@@ -2,13 +2,17 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'arijnahdi/demo-node:latest'
+        SONARQUBE = 'SonarQube'
+        DOCKER_IMAGE = "arijnahdi/demo-node"
+        DEPENDENCY_CHECK_HOME = "/opt/dependency-check"
+        PATH = "${env.PATH}:${DEPENDENCY_CHECK_HOME}/bin:/usr/local/bin"
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/nahdiarij/demo-node.git'  
+                git branch: 'main', url: 'https://github.com/nahdiarij/demo-node.git'
             }
         }
 
@@ -18,38 +22,112 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                echo 'Building Node.js project...'
+                sh 'npm run build || echo "No build step defined"'
+            }
+        }
+
         stage('Test') {
             steps {
-                sh 'npm test || echo "No tests defined"'
+                echo 'Running tests...'
+                sh 'npm test || echo "No test defined"'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('SAST - SonarQube') {
             steps {
-                sh "docker build -t $DOCKER_IMAGE ."
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                    sh "docker push $DOCKER_IMAGE"
+                echo 'Running SonarQube scan...'
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        sonar-scanner \
+                        -Dsonar.projectKey=demo-node \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://192.168.33.10:9000 \
+                        -Dsonar.token=squ_5ed68632f4ab55b1ad35e12bc50f46a1b3d1c27f
+                    '''
                 }
             }
         }
 
-        stage('Deploy') {
+      stage('SCA - Dependency Check') {
+    steps {
+        echo 'Running OWASP Dependency-Check...'
+        sh '''
+            mkdir -p dependency-check-report
+            /opt/dependency-check/dependency-check/bin/dependency-check.sh \
+                --project "demo-node" \
+                --scan . \
+                --format "HTML" \
+                --out dependency-check-report
+        '''
+        publishHTML(target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'dependency-check-report',
+            reportFiles: 'dependency-check-report.html',
+            reportName: 'Dependency-Check Report'
+        ])
+    }
+}
+
+
+        stage('Docker Scan') {
+    steps {
+        echo 'Scanning Docker image from Docker Hub with Trivy...'
+        sh '''
+            mkdir -p trivy-report
+            trivy image --format html --output trivy-report/trivy-report.html arijnahdi/demo-node:latest || true
+        '''
+    }
+    post {
+        always {
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'trivy-report',
+                reportFiles: 'trivy-report.html',
+                reportName: 'Trivy Vulnerability Report'
+            ])
+        }
+    }
+}
+
+        stage('Secrets Scan') {
             steps {
-                sh "docker run -d -p 3000:3000 $DOCKER_IMAGE"
+                echo 'Scanning for secrets with Gitleaks...'
+                sh '''
+                    mkdir -p gitleaks-report
+                    gitleaks detect --source . --report-format html --report-path gitleaks-report/gitleaks.html || true
+                '''
+            }
+            post {
+                always {
+                    publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'gitleaks-report',
+                        reportFiles: 'gitleaks.html',
+                        reportName: 'Gitleaks Secrets Scan Report'
+                    ])
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline terminé !'
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo '✅ Pipeline completed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed. Check logs for details!'
         }
     }
 }
-
