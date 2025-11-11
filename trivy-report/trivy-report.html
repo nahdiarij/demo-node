@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      h1 {
+        text-align: center;
+      }
+      .group-header th {
+        font-size: 200%;
+      }
+      .sub-header th {
+        font-size: 150%;
+      }
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        white-space: nowrap;
+        padding: .3em;
+      }
+      table {
+        margin: 0 auto;
+      }
+      .severity {
+        text-align: center;
+        font-weight: bold;
+        color: #fafafa;
+      }
+      .severity-LOW .severity { background-color: #5fbb31; }
+      .severity-MEDIUM .severity { background-color: #e9c600; }
+      .severity-HIGH .severity { background-color: #ff8800; }
+      .severity-CRITICAL .severity { background-color: #e40000; }
+      .severity-UNKNOWN .severity { background-color: #747474; }
+      .severity-LOW { background-color: #5fbb3160; }
+      .severity-MEDIUM { background-color: #e9c60060; }
+      .severity-HIGH { background-color: #ff880060; }
+      .severity-CRITICAL { background-color: #e4000060; }
+      .severity-UNKNOWN { background-color: #74747460; }
+      table tr td:first-of-type {
+        font-weight: bold;
+      }
+      .links a,
+      .links[data-more-links=on] a {
+        display: block;
+      }
+      .links[data-more-links=off] a:nth-of-type(1n+5) {
+        display: none;
+      }
+      a.toggle-more-links { cursor: pointer; }
+    </style>
+    <title>demo-node:latest (alpine 3.21.3) - Trivy Report - 2025-11-11 09:08:12.348015096 +0000 UTC m=+10.660359477 </title>
+    <script>
+      window.onload = function() {
+        document.querySelectorAll('td.links').forEach(function(linkCell) {
+          var links = [].concat.apply([], linkCell.querySelectorAll('a'));
+          [].sort.apply(links, function(a, b) {
+            return a.href > b.href ? 1 : -1;
+          });
+          links.forEach(function(link, idx) {
+            if (links.length > 3 && 3 === idx) {
+              var toggleLink = document.createElement('a');
+              toggleLink.innerText = "Toggle more links";
+              toggleLink.href = "#toggleMore";
+              toggleLink.setAttribute("class", "toggle-more-links");
+              linkCell.appendChild(toggleLink);
+            }
+            linkCell.appendChild(link);
+          });
+        });
+        document.querySelectorAll('a.toggle-more-links').forEach(function(toggleLink) {
+          toggleLink.onclick = function() {
+            var expanded = toggleLink.parentElement.getAttribute("data-more-links");
+            toggleLink.parentElement.setAttribute("data-more-links", "on" === expanded ? "off" : "on");
+            return false;
+          };
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <h1>demo-node:latest (alpine 3.21.3) - Trivy Report - 2025-11-11 09:08:12.348055143 +0000 UTC m=+10.660399501</h1>
+    <table>
+      <tr class="group-header"><th colspan="6">alpine</th></tr>
+      <tr class="sub-header">
+        <th>Package</th>
+        <th>Vulnerability ID</th>
+        <th>Severity</th>
+        <th>Installed Version</th>
+        <th>Fixed Version</th>
+        <th>Links</th>
+      </tr>
+      <tr class="severity-MEDIUM">
+        <td class="pkg-name">libcrypto3</td>
+        <td>CVE-2025-9230</td>
+        <td class="severity">MEDIUM</td>
+        <td class="pkg-version">3.3.3-r0</td>
+        <td>3.3.5-r0</td>
+        <td class="links" data-more-links="off">
+          <a href="http://www.openwall.com/lists/oss-security/2025/09/30/5">http://www.openwall.com/lists/oss-security/2025/09/30/5</a>
+          <a href="https://access.redhat.com/security/cve/CVE-2025-9230">https://access.redhat.com/security/cve/CVE-2025-9230</a>
+          <a href="https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45">https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45</a>
+          <a href="https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280">https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280</a>
+          <a href="https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def">https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def</a>
+          <a href="https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd">https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd</a>
+          <a href="https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482">https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482</a>
+          <a href="https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3">https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3</a>
+          <a href="https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba">https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba</a>
+          <a href="https://lists.debian.org/debian-lts-announce/2025/10/msg00001.html">https://lists.debian.org/debian-lts-announce/2025/10/msg00001.html</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-9230">https://nvd.nist.gov/vuln/detail/CVE-2025-9230</a>
+          <a href="https://openssl-library.org/news/secadv/20250930.txt">https://openssl-library.org/news/secadv/20250930.txt</a>
+          <a href="https://ubuntu.com/security/notices/USN-7786-1">https://ubuntu.com/security/notices/USN-7786-1</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-9230">https://www.cve.org/CVERecord?id=CVE-2025-9230</a>
+        </td>
+      </tr>
+      <tr class="severity-MEDIUM">
+        <td class="pkg-name">libcrypto3</td>
+        <td>CVE-2025-9231</td>
+        <td class="severity">MEDIUM</td>
+        <td class="pkg-version">3.3.3-r0</td>
+        <td>3.3.5-r0</td>
+        <td class="links" data-more-links="off">
+          <a href="http://www.openwall.com/lists/oss-security/2025/09/30/5">http://www.openwall.com/lists/oss-security/2025/09/30/5</a>
+          <a href="https://access.redhat.com/security/cve/CVE-2025-9231">https://access.redhat.com/security/cve/CVE-2025-9231</a>
+          <a href="https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe">https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe</a>
+          <a href="https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698">https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698</a>
+          <a href="https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4">https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4</a>
+          <a href="https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2">https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-9231">https://nvd.nist.gov/vuln/detail/CVE-2025-9231</a>
+          <a href="https://openssl-library.org/news/secadv/20250930.txt">https://openssl-library.org/news/secadv/20250930.txt</a>
+          <a href="https://ubuntu.com/security/notices/USN-7786-1">https://ubuntu.com/security/notices/USN-7786-1</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-9231">https://www.cve.org/CVERecord?id=CVE-2025-9231</a>
+        </td>
+      </tr>
+      <tr class="severity-LOW">
+        <td class="pkg-name">libcrypto3</td>
+        <td>CVE-2025-9232</td>
+        <td class="severity">LOW</td>
+        <td class="pkg-version">3.3.3-r0</td>
+        <td>3.3.5-r0</td>
+        <td class="links" data-more-links="off">
+          <a href="http://www.openwall.com/lists/oss-security/2025/09/30/5">http://www.openwall.com/lists/oss-security/2025/09/30/5</a>
+          <a href="https://access.redhat.com/security/cve/CVE-2025-9232">https://access.redhat.com/security/cve/CVE-2025-9232</a>
+          <a href="https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35">https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35</a>
+          <a href="https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b">https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b</a>
+          <a href="https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3">https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3</a>
+          <a href="https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf">https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf</a>
+          <a href="https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0">https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-9232">https://nvd.nist.gov/vuln/detail/CVE-2025-9232</a>
+          <a href="https://openssl-library.org/news/secadv/20250930.txt">https://openssl-library.org/news/secadv/20250930.txt</a>
+          <a href="https://ubuntu.com/security/notices/USN-7786-1">https://ubuntu.com/security/notices/USN-7786-1</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-9232">https://www.cve.org/CVERecord?id=CVE-2025-9232</a>
+        </td>
+      </tr>
+      <tr class="severity-MEDIUM">
+        <td class="pkg-name">libssl3</td>
+        <td>CVE-2025-9230</td>
+        <td class="severity">MEDIUM</td>
+        <td class="pkg-version">3.3.3-r0</td>
+        <td>3.3.5-r0</td>
+        <td class="links" data-more-links="off">
+          <a href="http://www.openwall.com/lists/oss-security/2025/09/30/5">http://www.openwall.com/lists/oss-security/2025/09/30/5</a>
+          <a href="https://access.redhat.com/security/cve/CVE-2025-9230">https://access.redhat.com/security/cve/CVE-2025-9230</a>
+          <a href="https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45">https://github.com/openssl/openssl/commit/5965ea5dd6960f36d8b7f74f8eac67a8eb8f2b45</a>
+          <a href="https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280">https://github.com/openssl/openssl/commit/9e91358f365dee6c446dcdcdb01c04d2743fd280</a>
+          <a href="https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def">https://github.com/openssl/openssl/commit/a79c4ce559c6a3a8fd4109e9f33c1185d5bf2def</a>
+          <a href="https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd">https://github.com/openssl/openssl/commit/b5282d677551afda7d20e9c00e09561b547b2dfd</a>
+          <a href="https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482">https://github.com/openssl/openssl/commit/bae259a211ada6315dc50900686daaaaaa55f482</a>
+          <a href="https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3">https://github.openssl.org/openssl/extended-releases/commit/c2b96348bfa662f25f4fabf81958ae822063dae3</a>
+          <a href="https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba">https://github.openssl.org/openssl/extended-releases/commit/dfbaf161d8dafc1132dd88cd48ad990ed9b4c8ba</a>
+          <a href="https://lists.debian.org/debian-lts-announce/2025/10/msg00001.html">https://lists.debian.org/debian-lts-announce/2025/10/msg00001.html</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-9230">https://nvd.nist.gov/vuln/detail/CVE-2025-9230</a>
+          <a href="https://openssl-library.org/news/secadv/20250930.txt">https://openssl-library.org/news/secadv/20250930.txt</a>
+          <a href="https://ubuntu.com/security/notices/USN-7786-1">https://ubuntu.com/security/notices/USN-7786-1</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-9230">https://www.cve.org/CVERecord?id=CVE-2025-9230</a>
+        </td>
+      </tr>
+      <tr class="severity-MEDIUM">
+        <td class="pkg-name">libssl3</td>
+        <td>CVE-2025-9231</td>
+        <td class="severity">MEDIUM</td>
+        <td class="pkg-version">3.3.3-r0</td>
+        <td>3.3.5-r0</td>
+        <td class="links" data-more-links="off">
+          <a href="http://www.openwall.com/lists/oss-security/2025/09/30/5">http://www.openwall.com/lists/oss-security/2025/09/30/5</a>
+          <a href="https://access.redhat.com/security/cve/CVE-2025-9231">https://access.redhat.com/security/cve/CVE-2025-9231</a>
+          <a href="https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe">https://github.com/openssl/openssl/commit/567f64386e43683888212226824b6a179885a0fe</a>
+          <a href="https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698">https://github.com/openssl/openssl/commit/cba616c26ac8e7b37de5e77762e505ba5ca51698</a>
+          <a href="https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4">https://github.com/openssl/openssl/commit/eed5adc9f969d77c94f213767acbb41ff923b6f4</a>
+          <a href="https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2">https://github.com/openssl/openssl/commit/fc47a2ec078912b3e914fab5734535e76c4820c2</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-9231">https://nvd.nist.gov/vuln/detail/CVE-2025-9231</a>
+          <a href="https://openssl-library.org/news/secadv/20250930.txt">https://openssl-library.org/news/secadv/20250930.txt</a>
+          <a href="https://ubuntu.com/security/notices/USN-7786-1">https://ubuntu.com/security/notices/USN-7786-1</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-9231">https://www.cve.org/CVERecord?id=CVE-2025-9231</a>
+        </td>
+      </tr>
+      <tr class="severity-LOW">
+        <td class="pkg-name">libssl3</td>
+        <td>CVE-2025-9232</td>
+        <td class="severity">LOW</td>
+        <td class="pkg-version">3.3.3-r0</td>
+        <td>3.3.5-r0</td>
+        <td class="links" data-more-links="off">
+          <a href="http://www.openwall.com/lists/oss-security/2025/09/30/5">http://www.openwall.com/lists/oss-security/2025/09/30/5</a>
+          <a href="https://access.redhat.com/security/cve/CVE-2025-9232">https://access.redhat.com/security/cve/CVE-2025-9232</a>
+          <a href="https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35">https://github.com/openssl/openssl/commit/2b4ec20e47959170422922eaff25346d362dcb35</a>
+          <a href="https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b">https://github.com/openssl/openssl/commit/654dc11d23468a74fc8ea4672b702dd3feb7be4b</a>
+          <a href="https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3">https://github.com/openssl/openssl/commit/7cf21a30513c9e43c4bc3836c237cf086e194af3</a>
+          <a href="https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf">https://github.com/openssl/openssl/commit/89e790ac431125a4849992858490bed6b225eadf</a>
+          <a href="https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0">https://github.com/openssl/openssl/commit/bbf38c034cdabd0a13330abcc4855c866f53d2e0</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-9232">https://nvd.nist.gov/vuln/detail/CVE-2025-9232</a>
+          <a href="https://openssl-library.org/news/secadv/20250930.txt">https://openssl-library.org/news/secadv/20250930.txt</a>
+          <a href="https://ubuntu.com/security/notices/USN-7786-1">https://ubuntu.com/security/notices/USN-7786-1</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-9232">https://www.cve.org/CVERecord?id=CVE-2025-9232</a>
+        </td>
+      </tr>
+      <tr><th colspan="6">No Misconfigurations found</th></tr>
+      <tr class="group-header"><th colspan="6">node-pkg</th></tr>
+      <tr class="sub-header">
+        <th>Package</th>
+        <th>Vulnerability ID</th>
+        <th>Severity</th>
+        <th>Installed Version</th>
+        <th>Fixed Version</th>
+        <th>Links</th>
+      </tr>
+      <tr class="severity-LOW">
+        <td class="pkg-name">brace-expansion</td>
+        <td>CVE-2025-5889</td>
+        <td class="severity">LOW</td>
+        <td class="pkg-version">2.0.1</td>
+        <td>2.0.2, 1.1.12, 3.0.1, 4.0.1</td>
+        <td class="links" data-more-links="off">
+          <a href="https://access.redhat.com/security/cve/CVE-2025-5889">https://access.redhat.com/security/cve/CVE-2025-5889</a>
+          <a href="https://gist.github.com/mmmsssttt404/37a40ce7d6e5ca604858fe30814d9466">https://gist.github.com/mmmsssttt404/37a40ce7d6e5ca604858fe30814d9466</a>
+          <a href="https://github.com/juliangruber/brace-expansion">https://github.com/juliangruber/brace-expansion</a>
+          <a href="https://github.com/juliangruber/brace-expansion/commit/0b6a9781e18e9d2769bb2931f4856d1360243ed2">https://github.com/juliangruber/brace-expansion/commit/0b6a9781e18e9d2769bb2931f4856d1360243ed2</a>
+          <a href="https://github.com/juliangruber/brace-expansion/commit/15f9b3c75ebf5988198241fecaebdc45eff28a9f">https://github.com/juliangruber/brace-expansion/commit/15f9b3c75ebf5988198241fecaebdc45eff28a9f</a>
+          <a href="https://github.com/juliangruber/brace-expansion/commit/36603d5f3599a37af9e85eda30acd7d28599c36e">https://github.com/juliangruber/brace-expansion/commit/36603d5f3599a37af9e85eda30acd7d28599c36e</a>
+          <a href="https://github.com/juliangruber/brace-expansion/commit/c3c73c8b088defc70851843be88ccc3af08e7217">https://github.com/juliangruber/brace-expansion/commit/c3c73c8b088defc70851843be88ccc3af08e7217</a>
+          <a href="https://github.com/juliangruber/brace-expansion/pull/65/commits/a5b98a4f30d7813266b221435e1eaaf25a1b0ac5">https://github.com/juliangruber/brace-expansion/pull/65/commits/a5b98a4f30d7813266b221435e1eaaf25a1b0ac5</a>
+          <a href="https://github.com/juliangruber/brace-expansion/releases/tag/v4.0.1">https://github.com/juliangruber/brace-expansion/releases/tag/v4.0.1</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-5889">https://nvd.nist.gov/vuln/detail/CVE-2025-5889</a>
+          <a href="https://vuldb.com/?ctiid.311660">https://vuldb.com/?ctiid.311660</a>
+          <a href="https://vuldb.com/?id.311660">https://vuldb.com/?id.311660</a>
+          <a href="https://vuldb.com/?submit.585717">https://vuldb.com/?submit.585717</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2025-5889">https://www.cve.org/CVERecord?id=CVE-2025-5889</a>
+        </td>
+      </tr>
+      <tr class="severity-HIGH">
+        <td class="pkg-name">cross-spawn</td>
+        <td>CVE-2024-21538</td>
+        <td class="severity">HIGH</td>
+        <td class="pkg-version">7.0.3</td>
+        <td>7.0.5, 6.0.6</td>
+        <td class="links" data-more-links="off">
+          <a href="https://access.redhat.com/security/cve/CVE-2024-21538">https://access.redhat.com/security/cve/CVE-2024-21538</a>
+          <a href="https://github.com/moxystudio/node-cross-spawn">https://github.com/moxystudio/node-cross-spawn</a>
+          <a href="https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff">https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff</a>
+          <a href="https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f">https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f</a>
+          <a href="https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd">https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd</a>
+          <a href="https://github.com/moxystudio/node-cross-spawn/issues/165">https://github.com/moxystudio/node-cross-spawn/issues/165</a>
+          <a href="https://github.com/moxystudio/node-cross-spawn/pull/160">https://github.com/moxystudio/node-cross-spawn/pull/160</a>
+          <a href="https://nvd.nist.gov/vuln/detail/CVE-2024-21538">https://nvd.nist.gov/vuln/detail/CVE-2024-21538</a>
+          <a href="https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349">https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349</a>
+          <a href="https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230">https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230</a>
+          <a href="https://www.cve.org/CVERecord?id=CVE-2024-21538">https://www.cve.org/CVERecord?id=CVE-2024-21538</a>
+        </td>
+      </tr>
+      <tr><th colspan="6">No Misconfigurations found</th></tr>
+    </table>
+  </body>
+</html>

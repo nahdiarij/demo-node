@@ -1,21 +1,19 @@
-# Utilise une image officielle de Node.js comme base
-FROM node:18-alpine
+FROM node:24-alpine
 
-# Définit le dossier de travail à l’intérieur du conteneur
-WORKDIR /app
+# Create app user and group
+RUN addgroup app && adduser -S -G app app
 
-# Copie uniquement les fichiers package.json et package-lock.json (pour installer les dépendances)
+WORKDIR /usr/src/app
+
+# Copy package files and install dependencies as root
 COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Installe les dépendances Node.js
-RUN npm install
-
-# Copie le reste du code de l’application
+# Copy rest of the app
 COPY . .
 
-# Informe Docker que le conteneur écoutera sur le port 3000
+# Switch to non-root user for runtime
+USER app
+
 EXPOSE 3000
-
-# Commande exécutée au démarrage du conteneur
-CMD ["node", "index.js"]
-
+CMD ["node", "app.js"]
