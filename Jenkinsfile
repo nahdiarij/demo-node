@@ -16,23 +16,17 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build & Test in Docker') {
             steps {
-                sh 'npm install'
-            }
-        }
+                echo 'Building and testing Node.js project in Docker...'
+                sh '''
+                    echo "Cleaning workspace..."
+                    rm -rf node_modules package-lock.json
+                    npm cache clean --force
 
-        stage('Build') {
-            steps {
-                echo 'Building Node.js project...'
-                sh 'npm run build || echo "No build step defined"'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh 'npm test || echo "No test defined"'
+                    docker build -t arijnahdi/demo-node:test .
+                    docker run --rm arijnahdi/demo-node:test sh -c "npm install && npm test || echo 'No test defined'"
+                '''
             }
         }
 
@@ -51,50 +45,49 @@ pipeline {
             }
         }
 
-      stage('SCA - Dependency Check') {
-    steps {
-        echo 'Running OWASP Dependency-Check...'
-        sh '''
-            mkdir -p dependency-check-report
-            /opt/dependency-check/dependency-check/bin/dependency-check.sh \
-                --project "demo-node" \
-                --scan . \
-                --format "HTML" \
-                --out dependency-check-report
-        '''
-        publishHTML(target: [
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'dependency-check-report',
-            reportFiles: 'dependency-check-report.html',
-            reportName: 'Dependency-Check Report'
-        ])
-    }
-}
-
+        stage('SCA - Dependency Check') {
+            steps {
+                echo 'Running OWASP Dependency-Check...'
+                sh '''
+                    mkdir -p dependency-check-report
+                    /opt/dependency-check/dependency-check/bin/dependency-check.sh \
+                        --project "demo-node" \
+                        --scan . \
+                        --format "HTML" \
+                        --out dependency-check-report
+                '''
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'dependency-check-report',
+                    reportFiles: 'dependency-check-report.html',
+                    reportName: 'Dependency-Check Report'
+                ])
+            }
+        }
 
         stage('Docker Scan') {
-    steps {
-        echo 'Scanning Docker image from Docker Hub with Trivy...'
-        sh '''
-            mkdir -p trivy-report
-            trivy image --format html --output trivy-report/trivy-report.html arijnahdi/demo-node:latest || true
-        '''
-    }
-    post {
-        always {
-            publishHTML(target: [
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'trivy-report',
-                reportFiles: 'trivy-report.html',
-                reportName: 'Trivy Vulnerability Report'
-            ])
+            steps {
+                echo 'Scanning Docker image from Docker Hub with Trivy...'
+                sh '''
+                    mkdir -p trivy-report
+                    trivy image --format html --output trivy-report/trivy-report.html arijnahdi/demo-node:latest || true
+                '''
+            }
+            post {
+                always {
+                    publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'trivy-report',
+                        reportFiles: 'trivy-report.html',
+                        reportName: 'Trivy Vulnerability Report'
+                    ])
+                }
+            }
         }
-    }
-}
 
         stage('Secrets Scan') {
             steps {
