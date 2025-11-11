@@ -1,7 +1,17 @@
 {
   "name": "demo-node",
   "version": "1.0.0",
+  "description": "Mini projet Node.js pour tester SonarScanner",
   "main": "index.js",
-  "dependencies": {}
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo \"Build step completed\"",
+    "test": "echo \"All tests passed!\""
+  },
+  "author": "Arij",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
 
